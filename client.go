@@ -12,6 +12,8 @@ import (
 // make it possible to mock connection ID for initial generation in the tests
 var generateConnectionIDForInitial = protocol.GenerateConnectionIDForInitial
 
+var CID = map[net.Addr]protocol.ConnectionID{}
+
 // DialAddr establishes a new QUIC connection to a server.
 // It resolves the address, and then creates a new UDP connection to dial the QUIC server.
 // When the QUIC connection is closed, this UDP connection is closed.
@@ -106,4 +108,8 @@ func setupTransport(c net.PacketConn, tlsConf *tls.Config, createdPacketConn boo
 		createdConn: createdPacketConn,
 		isSingleUse: true,
 	}, nil
+}
+
+func GetCID(remoteAddr net.Addr) string {
+	return CID[remoteAddr].String()
 }

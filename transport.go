@@ -278,6 +278,9 @@ func (t *Transport) doDial(
 	if err != nil {
 		return nil, err
 	}
+
+	CID[sendConn.RemoteAddr()] = srcConnID
+
 	destConnID, err := generateConnectionIDForInitial()
 	if err != nil {
 		return nil, err
