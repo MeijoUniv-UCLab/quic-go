@@ -1436,6 +1436,9 @@ func (c *Conn) handleLongHeaderPacket(p receivedPacket, hdr *wire.Header, datagr
 	if err := c.handleUnpackedLongHeaderPacket(packet, p.ecn, p.rcvTime, datagramPayloadChecksum, p.Size()); err != nil {
 		return false, err
 	}
+	if hdr.Type == protocol.PacketTypeHandshake {
+		recordConnectionIDs(c.conn.RemoteAddr(), hdr.DestConnectionID, hdr.SrcConnectionID)
+	}
 	return true, nil
 }
 
@@ -3174,6 +3177,34 @@ func (c *Conn) LocalAddr() net.Addr { return c.conn.LocalAddr() }
 
 // RemoteAddr returns the remote address of the QUIC connection.
 func (c *Conn) RemoteAddr() net.Addr { return c.conn.RemoteAddr() }
+
+var (
+	connIDsMutex      sync.RWMutex
+	srcConnectionIDs  = map[net.Addr]protocol.ConnectionID{}
+	destConnectionIDs = map[net.Addr]protocol.ConnectionID{}
+)
+
+// recordConnectionIDs stores the connection IDs used with remoteAddr.
+func recordConnectionIDs(remoteAddr net.Addr, srcID, destID protocol.ConnectionID) {
+	connIDsMutex.Lock()
+	defer connIDsMutex.Unlock()
+	srcConnectionIDs[remoteAddr] = srcID
+	destConnectionIDs[remoteAddr] = destID
+}
+
+// GetSrcConnectionID returns the local connection ID used with remoteAddr.
+func GetSrcConnectionID(remoteAddr net.Addr) string {
+	connIDsMutex.RLock()
+	defer connIDsMutex.RUnlock()
+	return srcConnectionIDs[remoteAddr].String()
+}
+
+// GetDestConnectionID returns the peer's connection ID for remoteAddr.
+func GetDestConnectionID(remoteAddr net.Addr) string {
+	connIDsMutex.RLock()
+	defer connIDsMutex.RUnlock()
+	return destConnectionIDs[remoteAddr].String()
+}
 
 // getPathManager lazily initializes the Conn's pathManagerOutgoing.
 // May create multiple pathManagerOutgoing objects if called concurrently.
