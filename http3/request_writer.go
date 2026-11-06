@@ -17,9 +17,9 @@ import (
 	"golang.org/x/net/idna"
 
 	"github.com/quic-go/qpack"
-	"github.com/quic-go/quic-go"
-	"github.com/quic-go/quic-go/http3/qlog"
-	"github.com/quic-go/quic-go/qlogwriter"
+	"github.com/MeijoUniv-UCLab/quic-go"
+	"github.com/MeijoUniv-UCLab/quic-go/http3/qlog"
+	"github.com/MeijoUniv-UCLab/quic-go/qlogwriter"
 )
 
 const bodyCopyBufferSize = 8 * 1024

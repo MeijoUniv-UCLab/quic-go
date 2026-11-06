@@ -11,9 +11,9 @@ import (
 	"testing/synctest"
 	"time"
 
-	"github.com/quic-go/quic-go"
-	"github.com/quic-go/quic-go/http3"
-	"github.com/quic-go/quic-go/quicvarint"
+	"github.com/MeijoUniv-UCLab/quic-go"
+	"github.com/MeijoUniv-UCLab/quic-go/http3"
+	"github.com/MeijoUniv-UCLab/quic-go/quicvarint"
 
 	"github.com/stretchr/testify/require"
 )

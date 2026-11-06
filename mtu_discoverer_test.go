@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/quic-go/quic-go/internal/monotime"
-	"github.com/quic-go/quic-go/internal/protocol"
-	"github.com/quic-go/quic-go/internal/utils"
-	"github.com/quic-go/quic-go/qlog"
-	"github.com/quic-go/quic-go/testutils/events"
+	"github.com/MeijoUniv-UCLab/quic-go/internal/monotime"
+	"github.com/MeijoUniv-UCLab/quic-go/internal/protocol"
+	"github.com/MeijoUniv-UCLab/quic-go/internal/utils"
+	"github.com/MeijoUniv-UCLab/quic-go/qlog"
+	"github.com/MeijoUniv-UCLab/quic-go/testutils/events"
 
 	"github.com/stretchr/testify/require"
 )
